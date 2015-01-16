@@ -3,6 +3,7 @@ package com.examples.apps.sales.core.models;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.examples.apps.sales.core.exceptions.InvalidSalesNumberException;
 import com.examples.apps.sales.core.utils.Utils;
 
 public class Receipt {
@@ -15,7 +16,7 @@ public class Receipt {
 		
 	}
 	
-	public Receipt addItem(Item newItem)	{
+	public Receipt addItem(Item newItem) throws InvalidSalesNumberException	{
 		items.add(newItem);
 
 		addToSalesTaxes(newItem.getTaxes());		
@@ -28,7 +29,9 @@ public class Receipt {
 		return items;
 	}
 	
-	public Receipt setSalesTaxes(double newSalesTaxes)	{		
+	public Receipt setSalesTaxes(double newSalesTaxes) throws InvalidSalesNumberException	{
+		if (newSalesTaxes < 0)
+			throw new InvalidSalesNumberException(newSalesTaxes);
 		this.salesTaxes= Utils.round(newSalesTaxes);
 		return this;
 	}
@@ -37,11 +40,13 @@ public class Receipt {
 		return salesTaxes;
 	}
 	
-	public Receipt addToSalesTaxes(double newSalesTaxes)	{
+	public Receipt addToSalesTaxes(double newSalesTaxes) throws InvalidSalesNumberException	{
 		return setSalesTaxes(getSalesTaxes() + newSalesTaxes);
 	}
 	
-	public Receipt setTotalPrice(double newTotalPrice)	{
+	public Receipt setTotalPrice(double newTotalPrice) throws InvalidSalesNumberException	{
+		if (newTotalPrice < 0)
+			throw new InvalidSalesNumberException(newTotalPrice);
 		this.totalPrice= newTotalPrice;
 		return this;
 	}
@@ -50,7 +55,7 @@ public class Receipt {
 		return totalPrice;
 	}	
 	
-	public Receipt addToTotalPrice(double newTotalPrice)	{
+	public Receipt addToTotalPrice(double newTotalPrice) throws InvalidSalesNumberException	{
 		return setTotalPrice(getTotalPrice() + newTotalPrice);
 	}		
 	

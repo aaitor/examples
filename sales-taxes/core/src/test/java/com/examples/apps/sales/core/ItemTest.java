@@ -1,10 +1,9 @@
 package com.examples.apps.sales.core;
 
 import static org.junit.Assert.*;
-
-import org.junit.Assert;
 import org.junit.Test;
 
+import com.examples.apps.sales.core.exceptions.InvalidSalesNumberException;
 import com.examples.apps.sales.core.models.Item;
 
 /**
@@ -23,7 +22,7 @@ public class ItemTest {
 	
 	
 	@Test
-	public void createItemObjectTest() {
+	public void createItemObjectTest() throws InvalidSalesNumberException {
 		Item item1= new Item(ITEM1_NAME, ITEM1_PRICE);
 		item1.setTaxes(ITEM1_TAXES);
 		item1.setIsImported(ITEM1_ISIMPORTED);
@@ -37,5 +36,9 @@ public class ItemTest {
 		assertTrue(item1.toString().contains(ITEM1_NAME));
 	}
 	
-	
+	@Test(expected=InvalidSalesNumberException.class)
+	public void createInvalidObjectTest() throws InvalidSalesNumberException {
+		Item item1= new Item(ITEM1_NAME, -10);		
+		assertEquals(item1.getName(), ITEM1_NAME);
+	}	
 }

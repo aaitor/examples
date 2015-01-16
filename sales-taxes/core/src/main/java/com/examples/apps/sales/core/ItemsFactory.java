@@ -1,7 +1,6 @@
 package com.examples.apps.sales.core;
 
-import java.util.List;
-
+import com.examples.apps.sales.core.exceptions.InvalidSalesNumberException;
 import com.examples.apps.sales.core.models.Item;
 
 public class ItemsFactory {
@@ -12,7 +11,7 @@ public class ItemsFactory {
 		this.prop= salesProperties;
 	}
 
-	public Item makeItem(String name, double price, String category, boolean isImported)	{
+	public Item makeItem(String name, double price, String category, boolean isImported) throws InvalidSalesNumberException	{
 		Item newItem= new Item(name, price);
 		
 		if (prop.getExemptCategories().contains(category.toUpperCase()))	{

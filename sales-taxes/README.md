@@ -7,9 +7,10 @@ The idea of this test project is to calculate sales taxes in different products.
 The project has 2 sub-modules:
 * cli. This module use the core module and expose the business logic. It's packaged using Appassembly in a zip file with the project dependencies and a Shell script executable file. 
 * core. This module implements the sales taxes business logic. The core module is packaged as a jar that can be included from another project. In the core submodule you will find the following packages:
-..* com.examples.apps.sales.core - The interface of core business logic is the SalesManager class, in that class you'll find the methods than external sub-modules or services can use to interact with the core module. This package also includes a ItemsFactory class in order to abstract the Items creation.
-..* com.examples.apps.sales.core.models - Include the Item and Receipt models
-..* com.examples.apps.sales.core.utils - Include the Utils class with a couple of support static methods to deal with numbers
+    a. com.examples.apps.sales.core - The interface of core business logic is the SalesManager class, in that class you'll find the methods than external sub-modules or services can use to interact with the core module. This package also includes a ItemsFactory class in order to abstract the Items creation.
+    b. com.examples.apps.sales.core.models - Include the Item and Receipt models
+    c. com.examples.apps.sales.core.utils - Include the Utils class with a couple of support static methods to deal with numbers
+    d. com.examples.apps.sales.core.exceptions - Include a simple custom application exception used in the price and taxes validations
 
 Using this architecture integrate the sales taxes business logic in other project or module (like a RESTful resource) it's quite simple. Example:
 
@@ -114,7 +115,6 @@ The project has been coded using Java 7 and Maven (Cobertura, Junit, Appassembly
 
 ## ToDo
 If time permits i would like to face a few details:
-* Orchestrate the application using spring and put the taxes and goods categories in a properties file
 * Create in a new project submodule a HTTP RESTful resource to expose the sales taxes business logic using any Java Microservice implementation (with Netflix API for example)
 * A deployment script using Docker
 * Add a Jmeter performance test

@@ -1,6 +1,6 @@
 package com.examples.apps.sales.core;
 
-import java.util.List;
+import com.examples.apps.sales.core.exceptions.InvalidSalesNumberException;
 import com.examples.apps.sales.core.models.Item;
 import com.examples.apps.sales.core.models.Receipt;
 
@@ -15,20 +15,23 @@ public interface SalesManager {
 	/**
 	 * Create a new empty Receipt
 	 * @return The receipt created
+	 * @throws InvalidSalesNumberException 
 	 */
-	Receipt addItemToReceipt(Receipt receipt, Item item);
+	Receipt addItemToReceipt(Receipt receipt, Item item) throws InvalidSalesNumberException;
 			
 	/**
 	 * Create a new Item
 	 * @return The item created
+	 * @throws InvalidSalesNumberException 
 	 */
-	Item createItem(String name, double price, String category,	boolean isImported);
+	Item createItem(String name, double price, String category,	boolean isImported) throws InvalidSalesNumberException;
 
 	/**
 	 * Create a new Item
 	 * @return The item created
+	 * @throws InvalidSalesNumberException 
 	 */	
-	Item createItem(String name, double price, String category);
+	Item createItem(String name, double price, String category) throws InvalidSalesNumberException;
 
 	
 	

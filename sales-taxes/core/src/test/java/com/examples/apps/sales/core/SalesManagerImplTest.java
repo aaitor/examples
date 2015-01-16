@@ -7,11 +7,16 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import com.examples.apps.sales.core.exceptions.InvalidSalesNumberException;
 import com.examples.apps.sales.core.models.Item;
 import com.examples.apps.sales.core.models.Receipt;
+
 import au.com.bytecode.opencsv.CSVReader;
 
 /**
@@ -20,12 +25,16 @@ import au.com.bytecode.opencsv.CSVReader;
  */
 public class SalesManagerImplTest {
 
+	
+	private static final double salesTaxes= 0.10;
+	private static final double importTaxes= 0.05;
+	private static final List<String> exemptCategories = Arrays.asList("BOOK", "FOOD", "MEDICAL");	
+	private static SalesProperties salesProperties;
+	
 	private static final String ITEM1_NAME= "music cd";
 	private static final double ITEM1_PRICE= 15.70;
 	private static final String ITEM1_CATEGORY= "MUSIC";
-	private static final double ITEM1_TAXES= 1.0;
 	private static final boolean ITEM1_ISIMPORTED= true;
-	private static final boolean ITEM1_TAXESEXEMPT= false;
 	
 	private static final String FILE_RECEIPT1= "receipt1.txt";
 	private static final String FILE_RECEIPT2= "receipt2.txt";
@@ -45,11 +54,16 @@ public class SalesManagerImplTest {
 	
     @BeforeClass
     public static void initializeObjects()    {
-    	manager= new SalesManagerImpl();
+    	try {
+			salesProperties= new SalesProperties(salesTaxes, importTaxes, exemptCategories);
+		} catch (InvalidSalesNumberException e) {
+			e.printStackTrace();
+		}
+    	manager= new SalesManagerImpl(salesProperties);
     }
 	
 	@Test
-	public void createReceiptObjectTest() {
+	public void createReceiptObjectTest() throws InvalidSalesNumberException {
 		
 		Item item1= manager.createItem(ITEM1_NAME, ITEM1_PRICE, ITEM1_CATEGORY, ITEM1_ISIMPORTED);		
 				
@@ -60,7 +74,7 @@ public class SalesManagerImplTest {
 	}	
 	
 	@Test
-	public void receipt1Test() {
+	public void receipt1Test() throws InvalidSalesNumberException {
 
 		Receipt receipt= manager.createReceipt();
 		List<Item> listItems= getItemsFromCSV(FILE_RECEIPT1);
@@ -75,7 +89,7 @@ public class SalesManagerImplTest {
 	}
 	
 	@Test
-	public void receipt2Test() {
+	public void receipt2Test() throws InvalidSalesNumberException {
 
 		Receipt receipt= manager.createReceipt();
 		List<Item> listItems= getItemsFromCSV(FILE_RECEIPT2);
@@ -90,7 +104,7 @@ public class SalesManagerImplTest {
 	}	
 	
 	@Test
-	public void receipt3Test() {
+	public void receipt3Test() throws InvalidSalesNumberException {
 
 		Receipt receipt= manager.createReceipt();
 		List<Item> listItems= getItemsFromCSV(FILE_RECEIPT3);
@@ -122,6 +136,13 @@ public class SalesManagerImplTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.getMessage();
+			e.printStackTrace();
+		} catch (InvalidSalesNumberException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

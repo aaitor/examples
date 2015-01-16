@@ -1,5 +1,6 @@
 package com.examples.apps.sales.core.models;
 
+import com.examples.apps.sales.core.exceptions.InvalidSalesNumberException;
 import com.examples.apps.sales.core.utils.Utils;
 
 public class Item {
@@ -14,7 +15,7 @@ public class Item {
 	
 	private boolean taxesExempt= false;
 	
-	public Item(String name, double price)	{
+	public Item(String name, double price) throws InvalidSalesNumberException	{
 		this.setName(name);
 		this.setPrice(price);
 	}
@@ -28,7 +29,9 @@ public class Item {
 		return this.name;
 	}
 
-	public Item setPrice(double newPrice)	{
+	public Item setPrice(double newPrice) throws InvalidSalesNumberException	{
+		if (newPrice < 0)
+			throw new InvalidSalesNumberException(newPrice);		
 		this.price= newPrice;
 		return this;
 	}

@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import com.examples.apps.sales.core.exceptions.InvalidSalesNumberException;
 import com.examples.apps.sales.core.models.Item;
 
 public class ItemsFactoryTest {
@@ -21,8 +22,14 @@ public class ItemsFactoryTest {
 	private List<String> exemptCategories = Arrays.asList("AAAA", "FOOD");
 	
 	@Test
-	public void createItemsFactoryTest() {
-		SalesProperties prop= new SalesProperties(salesTaxes, importTaxes, exemptCategories);
+	public void createItemsFactoryTest() throws InvalidSalesNumberException {
+		SalesProperties prop = null;
+		try {
+			prop = new SalesProperties(salesTaxes, importTaxes, exemptCategories);
+		} catch (InvalidSalesNumberException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();			
+		}
 		
 		ItemsFactory factory= new ItemsFactory(prop);
 		Item item1= factory.makeItem(ITEM1_NAME, ITEM1_PRICE, ITEM1_CATEGORY, ITEM1_ISIMPORTED);
