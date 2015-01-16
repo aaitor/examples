@@ -1,5 +1,8 @@
 package com.examples.apps.sales.core;
 
+import java.util.Arrays;
+import java.util.List;
+
 import com.examples.apps.sales.core.models.Item;
 import com.examples.apps.sales.core.models.Receipt;
 import com.examples.apps.sales.core.utils.Utils;
@@ -8,12 +11,14 @@ import com.examples.apps.sales.core.utils.Utils;
 public class SalesManagerImpl implements SalesManager {
 	
 	private ItemsFactory itemsFactory;
-	private double SALES_TAXES= 0.10;
-	private double IMPORT_TAXES= 0.05;
-	
+	private SalesProperties prop;
+	private double salesTaxes= 0.10;
+	private double importTaxes= 0.05;
+	private List<String> exemptCategories = Arrays.asList("BOOK", "FOOD", "MEDICAL");
 	
 	public SalesManagerImpl()	{
-		itemsFactory= new ItemsFactory();
+		prop= new SalesProperties(salesTaxes, importTaxes, exemptCategories);
+		itemsFactory= new ItemsFactory(prop);
 	}
 
 	@Override
@@ -24,11 +29,11 @@ public class SalesManagerImpl implements SalesManager {
 		double itemTaxes= 0;		
 		
 		if (!item.getTaxesExempt())	{
-			itemTaxes= Utils.round(item.getPrice() * SALES_TAXES);
+			itemTaxes= Utils.round(item.getPrice() * prop.getSalesTaxes());
 		}
 			
 		if (isImported)	{
-			itemTaxes= itemTaxes + Utils.round(item.getPrice() * IMPORT_TAXES);			
+			itemTaxes= itemTaxes + Utils.round(item.getPrice() * prop.getImportTaxes());			
 		}		
 				
 		item.setTaxes(itemTaxes);		
