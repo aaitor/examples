@@ -1,0 +1,139 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.examples.apps</groupId>
+    <artifactId>sales</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <artifactId>cli</artifactId>
+  <packaging>jar</packaging>
+  <name>Command Line Interface</name>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+  <dependencies>
+      
+	<dependency>
+	 	<groupId>${project.parent.groupId}</groupId>
+	 	<artifactId>core</artifactId>
+	 	<version>${project.parent.version}</version>
+	 </dependency>
+  
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+    </dependency>      
+      
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+ </dependencies>
+
+<build>	
+    <finalName>sales-taxes-cli</finalName>
+	<plugins>	
+     <plugin>
+	    <!-- Build an executable JAR -->
+	    <groupId>org.apache.maven.plugins</groupId>
+	    <artifactId>maven-jar-plugin</artifactId>
+	    <configuration>
+	    <archive>
+	      <manifest>
+	      <addClasspath>true</addClasspath>
+		      <mainClass>com.example.apps.sale.Main</mainClass>
+	      </manifest>
+	    </archive>
+	     </configuration>
+    </plugin>	
+	
+	  <plugin>
+	    <groupId>org.codehaus.mojo</groupId>
+	    <artifactId>build-helper-maven-plugin</artifactId>
+	    <version>1.5</version>
+	    <executions>
+	      <execution>
+	        <id>add-source</id>
+	        <phase>generate-sources</phase>
+	        <goals>
+	          <goal>add-source</goal>
+	        </goals>
+	        <configuration>
+	          <sources>
+	            <source>src/main/java</source>
+	            <source>src/main/resources</source>
+	          </sources> 
+	        </configuration>
+	      </execution>
+	      <execution>
+	        <id>add-test-source</id>
+	        <phase>generate-test-sources</phase>
+	        <goals>
+	          <goal>add-test-source</goal>
+	        </goals>
+	        <configuration>
+	          <sources>
+	            <source>src/test/java</source>
+	          </sources>
+	        </configuration>
+	      </execution>    
+	    </executions>
+	  </plugin>	  
+
+	  <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>appassembler-maven-plugin</artifactId>
+        <version>1.6</version>
+        
+        <executions>
+            <execution>
+                <id>assembly</id>
+                <phase>verify</phase>
+                <goals>
+                    <goal>assemble</goal>
+                </goals>
+            </execution>
+        </executions>
+
+        <configuration>
+       	  <binFileExtensions>
+	      	<unix>.sh</unix>
+	      </binFileExtensions>
+	      <configurationDirectory>resources</configurationDirectory>
+	      <configurationSourceDirectory>src/main/resources/</configurationSourceDirectory>
+	      <copyConfigurationDirectory>true</copyConfigurationDirectory>
+	      <useAllProjectDependencies>false</useAllProjectDependencies>
+          <programs>
+            <program>
+              <mainClass> com.example.apps.sales.Main</mainClass>             
+              <id>cli</id>
+            </program>
+          </programs>
+        </configuration>
+      </plugin>
+      
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <executions>
+
+          <execution>
+            <id>assemble</id>
+            <phase>install</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <configuration>
+              <descriptor>src/main/assembly/bin-zip.xml</descriptor>
+            </configuration>
+          </execution>
+
+        </executions>                                  
+      </plugin>                  
+	</plugins>
+	</build>  
+  
+</project>
