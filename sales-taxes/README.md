@@ -114,7 +114,8 @@ You can run cobertura plugin to check the core module code coverage.
 The project has been coded using Java 7 and Maven (Cobertura, Junit, Appassembly)
 
 ## ToDo
-If time permits i would like to face a few details:
+If time permits it would be fine to work in a few details:
+* Complete Receipt CRUD implementation in order to support delete and update Items. Add number of Items support.
 * Create in a new project submodule a HTTP RESTful resource to expose the sales taxes business logic using any Java Microservice implementation (with Netflix API for example)
 * A deployment script using Docker
 * Add a Jmeter performance test

@@ -8,6 +8,11 @@ public class InvalidSalesNumberException extends Exception {
 
 	private double number;
 	
+	/**
+	 * Class constructor
+	 * 
+	 * @param number The invalid number
+	 */		
 	public InvalidSalesNumberException(double number)	{
 		this.number= number;
 	}
